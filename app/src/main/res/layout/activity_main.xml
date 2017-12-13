@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.aderbal.bookshareapp.MainActivity"
+    android:weightSum="1"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/lbLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.502"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/btnLogIn" />
+
+    <TextView
+        android:id="@+id/lbPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:layout_weight="1"
+        android:text="Password"
+        android:layout_below="@+id/txtLogin"
+        android:layout_alignStart="@+id/txtLogin" />
+
+    <EditText
+        android:id="@+id/txtPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:layout_below="@+id/lbPassword"
+        android:layout_alignStart="@+id/lbPassword" />
+
+    <EditText
+        android:id="@+id/txtLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_below="@+id/lbLogin"
+        android:layout_alignStart="@+id/lbLogin"
+        android:layout_marginTop="14dp" />
+
+    <Button
+        android:id="@+id/btnLogIn"
+        style="@android:style/Widget.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lbCreateAccount"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:text="LOG IN"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/lbForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtPassword"
+        android:layout_below="@+id/txtPassword"
+        android:layout_marginTop="12dp"
+        android:text="Forgot password?"
+        android:textAllCaps="false"
+        android:textColor="@android:color/holo_blue_dark" />
+
+    <TextView
+        android:id="@+id/lbCreateAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/lbForgotPassword"
+        android:layout_below="@+id/lbForgotPassword"
+        android:layout_marginTop="13dp"
+        android:text="Create account"
+        android:textColor="@android:color/holo_blue_dark" />
+
+</RelativeLayout>

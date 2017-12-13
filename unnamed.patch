@@ -1,0 +1,170 @@
+Index: app/app.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/app.iml	(revision 4b4de144279517186873377ab3c46a3b700aaece)
++++ app/app.iml	(revision 56162bff20a196c9f38e71e66da13f586c520103)
+@@ -119,6 +119,7 @@
+     <orderEntry type="jdk" jdkName="Android API 26 Platform" jdkType="Android SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+     <orderEntry type="library" name="com.google.firebase:firebase-analytics-10.0.1" level="project" />
++    <orderEntry type="library" name="com.google.android.gms:play-services-base-10.0.1" level="project" />
+     <orderEntry type="library" scope="TEST" name="com.android.support.test:exposed-instrumentation-api-publish-0.5" level="project" />
+     <orderEntry type="library" scope="TEST" name="junit:junit:4.12@jar" level="project" />
+     <orderEntry type="library" name="com.android.support:appcompat-v7-26.0.0-alpha1" level="project" />
+@@ -126,6 +127,7 @@
+     <orderEntry type="library" scope="TEST" name="javax.inject:javax.inject:1@jar" level="project" />
+     <orderEntry type="library" scope="TEST" name="com.squareup:javawriter:2.1.1@jar" level="project" />
+     <orderEntry type="library" name="com.google.firebase:firebase-iid-10.0.1" level="project" />
++    <orderEntry type="library" name="com.google.firebase:firebase-auth-10.0.1" level="project" />
+     <orderEntry type="library" name="com.android.support:support-v4-26.0.0-alpha1" level="project" />
+     <orderEntry type="library" name="com.google.firebase:firebase-analytics-impl-10.0.1" level="project" />
+     <orderEntry type="library" name="com.android.support:support-compat-26.0.0-alpha1" level="project" />
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 4b4de144279517186873377ab3c46a3b700aaece)
++++ app/build.gradle	(revision 56162bff20a196c9f38e71e66da13f586c520103)
+@@ -27,6 +27,7 @@
+     compile 'com.android.support:appcompat-v7:26.+'
+     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+     compile 'com.google.firebase:firebase-database:10.0.1'
++    compile 'com.google.firebase:firebase-auth:10.0.1'
+     testCompile 'junit:junit:4.12'
+ }
+ 
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 4b4de144279517186873377ab3c46a3b700aaece)
++++ app/src/main/AndroidManifest.xml	(revision 56162bff20a196c9f38e71e66da13f586c520103)
+@@ -25,7 +25,8 @@
+         <activity android:name=".FriendCollection" />
+         <activity android:name=".PublicLibrary" />
+         <activity android:name=".Loans" />
+-        <activity android:name=".Reminders"></activity>
++        <activity android:name=".Reminders" />
++        <activity android:name=".AddFriend"></activity>
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_add_friend.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_add_friend.xml	(revision 56162bff20a196c9f38e71e66da13f586c520103)
++++ app/src/main/res/layout/activity_add_friend.xml	(revision 56162bff20a196c9f38e71e66da13f586c520103)
+@@ -0,0 +1,57 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    android:orientation="vertical"
++    tools:context="com.example.aderbal.bookshareapp.AddFriend">
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:layout_marginLeft="20dp"
++        android:layout_marginRight="20dp"
++        android:orientation="vertical">
++
++        <TextView
++            android:id="@+id/lbNewFriendName"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="80dp"
++            android:text="Insert friend's name"
++            android:textSize="18sp" />
++
++        <EditText
++            android:id="@+id/txtNewFriendName"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="5dp"
++            android:ems="10"
++            android:inputType="textPersonName" />
++
++        <TextView
++            android:id="@+id/lbNewFriendEmail"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginTop="20dp"
++            android:text="Insert friend's email:"
++            android:textSize="18sp" />
++
++        <EditText
++            android:id="@+id/txtNewFriendEmail"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:layout_marginBottom="20dp"
++            android:layout_marginTop="5dp"
++            android:ems="10"
++            android:inputType="textPersonName" />
++
++        <Button
++            android:id="@+id/btnAddNewFriend"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="Send request" />
++    </LinearLayout>
++
++</LinearLayout>
+Index: app/src/main/res/layout/activity_manage_collection.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_manage_collection.xml	(revision 4b4de144279517186873377ab3c46a3b700aaece)
++++ app/src/main/res/layout/activity_manage_collection.xml	(revision 56162bff20a196c9f38e71e66da13f586c520103)
+@@ -40,13 +40,6 @@
+             android:layout_weight="1"
+             android:text="ADD" />
+ 
+-        <Button
+-            android:id="@+id/btnEditBook"
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            android:layout_weight="1"
+-            android:text="EDIT" />
+-
+         <Button
+             android:id="@+id/btnDeleteBook"
+             android:layout_width="wrap_content"
+Index: app/src/main/res/layout/custom_list_book.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/custom_list_book.xml	(revision 56162bff20a196c9f38e71e66da13f586c520103)
++++ app/src/main/res/layout/custom_list_book.xml	(revision 56162bff20a196c9f38e71e66da13f586c520103)
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:id="@+id/listViewItemBook"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++
++    <CheckedTextView
++        android:id="@+id/checkedTextView"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginBottom="5dp"
++        android:layout_marginLeft="20dp"
++        android:layout_marginRight="20dp"
++        android:layout_marginTop="5dp"
++        android:layout_weight="1"
++        android:text="CheckedTextView"
++        android:textSize="18sp" />
++
++</LinearLayout>
+\ No newline at end of file

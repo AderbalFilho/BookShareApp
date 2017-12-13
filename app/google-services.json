@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "340074199260",
+    "firebase_url": "https://bookshareapp-3ab32.firebaseio.com",
+    "project_id": "bookshareapp-3ab32",
+    "storage_bucket": "bookshareapp-3ab32.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:340074199260:android:488247b6520a6a8f",
+        "android_client_info": {
+          "package_name": "com.example.aderbal.bookshareapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "340074199260-7b145qra75g8mnvcrdmfhb6ljrjt8sd1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.aderbal.bookshareapp",
+            "certificate_hash": "4590e57c430908636438343141e22e97c41d26fa"
+          }
+        },
+        {
+          "client_id": "340074199260-r0ddg9m8r2dumsg8ncia2pprc613g3f2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhJsV7A_PTkG18EV9LiAxsqRI1FZlb_8I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "340074199260-r0ddg9m8r2dumsg8ncia2pprc613g3f2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
