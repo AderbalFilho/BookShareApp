@@ -8,18 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
-import android.widget.Toast;
 
 import java.util.List;
 
-public class FriendAdaptor extends BaseAdapter {
+public class BookNewLoanAdaptor extends BaseAdapter {
     Context context;
-    List<Friend> friends;
+    List<Book> newLoanbooks;
 
     //A constructor to set up our instance variables
-    public FriendAdaptor(Context c, List<Friend> f) {
+    public BookNewLoanAdaptor(Context c, List<Book> b) {
         context = c;
-        friends = f;
+        newLoanbooks = b;
     }
 
     /*
@@ -27,7 +26,7 @@ public class FriendAdaptor extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return friends.size();
+        return newLoanbooks.size();
     }
 
     /*
@@ -66,44 +65,23 @@ public class FriendAdaptor extends BaseAdapter {
         //We need to set up the child views that will go into our custom_list layout
         //Get a reference to the TextView and set its text
         CheckedTextView checkedTextView = (CheckedTextView) row.findViewById(R.id.checkedTextView);
-        checkedTextView.setText(friends.get(position).friendName);
+        checkedTextView.setText(newLoanbooks.get(position).title);
 
         //Respond to clicks on our listItems
         row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFriendClick(friends.get(position));
+                onNewLoanBookClick(newLoanbooks.get(position));
             }
 
-            public void onFriendClick(Friend friend) {
-                if(friend.status.equals("accepted")) {
-                    Intent friendCollectionIntent = new Intent(context, FriendCollection.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    friendCollectionIntent.putExtra("friendName", friend.friendName);
-                    String friendKey = friend.friendEmail.substring(0, friend.friendEmail.indexOf("@"));
-                    friendCollectionIntent.putExtra("friendKey", friendKey);
-                    context.startActivity(friendCollectionIntent);
-                } else {
-                    Toast.makeText(context, "Your friend need to accept you to access his/her library", Toast.LENGTH_LONG).show();
-                }
+            public void onNewLoanBookClick (Book book) {
+                Intent editBookIntent = new Intent(context,NewLoanRequestFriend.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                editBookIntent.putExtra("bookKey",book.key);
+                editBookIntent.putExtra("bookTitle",book.title);
+                context.startActivity(editBookIntent);
             }
         });
 
-        row.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                onFriendLongClick(friends.get(position));
-                return false;
-            }
-
-            public void onFriendLongClick (Friend friend) {
-                Intent deleteFriendIntent = new Intent(context,AddFriend.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);;
-                deleteFriendIntent.putExtra("action","delete");
-                String friendKey = friend.friendEmail.substring(0, friend.friendEmail.indexOf("@"));
-                deleteFriendIntent.putExtra("friendKey", friendKey);
-                deleteFriendIntent.putExtra("friendName", friend.friendName);
-                context.startActivity(deleteFriendIntent);
-            }
-        });
         return row;
     }
 }

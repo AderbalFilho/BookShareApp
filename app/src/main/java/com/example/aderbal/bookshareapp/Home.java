@@ -82,7 +82,7 @@ public class Home extends AppCompatActivity {
             }
         );
 
-        Button btnReminders = (Button) findViewById(R.id.btnReminders);
+        /*Button btnReminders = (Button) findViewById(R.id.btnReminders);
         btnReminders.setOnClickListener(
             new View.OnClickListener(){
                 public void onClick(View v) {
@@ -98,7 +98,7 @@ public class Home extends AppCompatActivity {
                     handleBtnPublicLibraryclick();
                 }
             }
-        );
+        );*/
 
         Button btnSignOut = (Button) findViewById(R.id.btnSignOut);
         btnSignOut.setOnClickListener(

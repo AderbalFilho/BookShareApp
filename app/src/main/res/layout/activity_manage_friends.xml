@@ -30,13 +30,6 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnFriendLibrary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="SEE LIBRARY" />
-
-        <Button
             android:id="@+id/btnAddFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,16 +37,25 @@
             android:text="ADD" />
 
         <Button
-            android:id="@+id/btnDeleteFriend"
+            android:id="@+id/btnHelpFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="DELETE" />
+            android:text="Help" />
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/friendsInvites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
 
     <ListView
         android:id="@+id/manageFriends"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" >
+
+    </ListView>
 
 </LinearLayout>

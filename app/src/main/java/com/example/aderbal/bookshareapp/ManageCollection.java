@@ -14,6 +14,7 @@ import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -30,10 +31,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ManageCollection extends AppCompatActivity {
-    List<String> bookNames = new ArrayList<>();;
     List<Book> books = new ArrayList<>();
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-    final private String username = "friend2";
+    private String username;
 
     public void handleBtnAddBookclick() {
         Intent addBookIntent = new Intent();
@@ -42,20 +42,17 @@ public class ManageCollection extends AppCompatActivity {
         setResult(Activity.RESULT_OK, addBookIntent);
         startActivity(addBookIntent);
     }
-/*
-    public void handleEditBookclick() {
-        Intent editBookIntent = new Intent();
-        editBookIntent.setComponent(new ComponentName("com.example.aderbal.bookshareapp", "com.example.aderbal.bookshareapp.ManageBooks"));
-        editBookIntent.putExtra("action","update");
-        editBookIntent.putExtra("bookKey","");
-        setResult(Activity.RESULT_OK, editBookIntent);
-        startActivity(editBookIntent);
+
+    public void handleBtnHelpBookclick() {
+        Toast.makeText(this, "Click to update, long click to delete", Toast.LENGTH_LONG).show();
     }
-*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_collection);
+        username = getString(R.string.username);
+
         new LoadBooks().execute("");
 
         Button btnAddBook = (Button) findViewById(R.id.btnAddBook);
@@ -66,17 +63,18 @@ public class ManageCollection extends AppCompatActivity {
                     }
                 }
         );
-        /*Button btnEditBook = (Button) findViewById(R.id.btnEditBook);
-        btnEditBook.setOnClickListener(
+
+        Button btnHelpBook = (Button) findViewById(R.id.btnHelpBook);
+        btnHelpBook.setOnClickListener(
                 new View.OnClickListener(){
                     public void onClick(View v) {
-                        handleEditBookclick();
+                        handleBtnHelpBookclick();
                     }
                 }
-        );*/
+        );
     }
 
-    protected class LoadBooks extends AsyncTask<String, Integer, Integer> {
+    private class LoadBooks extends AsyncTask<String, Integer, Integer> {
         int success = 0;
         @Override
         protected Integer doInBackground(String... strings) {
@@ -102,8 +100,9 @@ public class ManageCollection extends AppCompatActivity {
                     public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                         Book newBook = dataSnapshot.getValue(Book.class);
                         newBook.key = dataSnapshot.getKey();
+                        if(newBook.borrowed)
+                            newBook.title = newBook.title + " (borrowed)";
                         books.add(newBook);
-                        bookNames.add(newBook.title);
                         onProgressUpdate();
                     }
 
@@ -137,11 +136,6 @@ public class ManageCollection extends AppCompatActivity {
                 ListView listView = (ListView) findViewById(R.id.manageBookCollection);
 
                 BookAdaptor bookAdaptor = new BookAdaptor(getBaseContext(), books);
-                /*ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                        getBaseContext(),
-                        android.R.layout.simple_list_item_multiple_choice,
-                        bookNames
-                );*/
                 listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 listView.setAdapter(bookAdaptor);
                 //Once finished all we do here is print out the headlines...

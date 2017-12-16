@@ -4,9 +4,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -14,24 +12,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class FriendCollection extends AppCompatActivity {
+public class NewLoanRequest extends AppCompatActivity {
     List<Book> books = new ArrayList<>();
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-    private String friendKey;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend_collection);
-        final Bundle extras = getIntent().getExtras();
-        friendKey = extras.getString("friendKey");
-        TextView lbFriendName = (TextView) findViewById(R.id.lbFriendName);
-        lbFriendName.setText(extras.getString("friendName"));
+        setContentView(R.layout.activity_new_loan_request);
+
+        username = getString(R.string.username);
+
         new LoadBooks().execute("");
     }
 
@@ -40,14 +35,17 @@ public class FriendCollection extends AppCompatActivity {
         @Override
         protected Integer doInBackground(String... strings) {
             try {
-                DatabaseReference ref = mDatabase.getReference().child(friendKey).child("books");
+                DatabaseReference ref = mDatabase.getReference().child(username).child("books");
+
                 ref.addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                         Book newBook = dataSnapshot.getValue(Book.class);
-                        newBook.key = dataSnapshot.getKey();
-                        books.add(newBook);
-                        onProgressUpdate();
+                        if(!newBook.borrowed) {
+                            newBook.key = dataSnapshot.getKey();
+                            books.add(newBook);
+                            onProgressUpdate();
+                        }
                     }
 
                     @Override
@@ -77,11 +75,10 @@ public class FriendCollection extends AppCompatActivity {
         //onPostExecute is called by the framework when the end of doInBackground is reached
         protected void onProgressUpdate() {
             if (success == 1) {
-                ListView listView = (ListView) findViewById(R.id.manageFriendsCollection);
-
-                FriendBookAdaptor friendBookAdaptor = new FriendBookAdaptor(getBaseContext(), books, friendKey);
+                ListView listView = (ListView) findViewById(R.id.newLoanBook);
+                BookNewLoanAdaptor bookNewLoanAdaptor = new BookNewLoanAdaptor(getBaseContext(), books);
                 listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                listView.setAdapter(friendBookAdaptor);
+                listView.setAdapter(bookNewLoanAdaptor);
                 //Once finished all we do here is print out the headlines...
                 //Or extends this to refresh any views you have (if necessary)
                 Log.d("ASYNCTASK COMPLETE", "Components loaded!");

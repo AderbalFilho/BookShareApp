@@ -4,53 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.aderbal.bookshareapp.ManageCollection"
-    android:orientation="vertical">
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:orientation="vertical"
+    tools:context="com.example.aderbal.bookshareapp.NewLoanRequestFriend">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/lbChooseFriendLend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="5dp">
-
-        </SearchView>
-
-    </LinearLayout>
+        android:text="Choose friend or write his/her name"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnAddBook"
+        <TextView
+            android:id="@+id/lbFriendLendName"
             android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:text="Friend's name:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/txtFriendLendName"
+            android:layout_width="167dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="ADD" />
+            android:ems="10"
+            android:inputType="textPersonName" />
 
         <Button
-            android:id="@+id/btnHelpBook"
+            android:id="@+id/btnFriendLendName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Help" />
+            android:text="Select" />
 
     </LinearLayout>
 
     <ListView
-        android:id="@+id/manageBookCollection"
+        android:id="@+id/friendNameToLend"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />

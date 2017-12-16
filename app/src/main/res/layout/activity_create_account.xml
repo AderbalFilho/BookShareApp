@@ -102,6 +102,23 @@
         android:ems="10"
         android:inputType="textPostalAddress" />
 
+    <TextView
+        android:id="@+id/lbPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Password:" />
+
+    <EditText
+        android:id="@+id/txtPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:ems="10"
+        android:inputType="textPassword" />
+
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="match_parent"
@@ -109,5 +126,5 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="40dp"
-        android:text="Button" />
+        android:text="Create" />
 </LinearLayout>

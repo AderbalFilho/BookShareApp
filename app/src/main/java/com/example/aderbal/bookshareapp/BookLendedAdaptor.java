@@ -7,19 +7,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckedTextView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class FriendAdaptor extends BaseAdapter {
-    Context context;
-    List<Friend> friends;
+public class BookLendedAdaptor extends BaseAdapter {
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private Context context;
+    private List<Book> booksLended = new ArrayList<>();
+    private String username;
 
     //A constructor to set up our instance variables
-    public FriendAdaptor(Context c, List<Friend> f) {
+    public BookLendedAdaptor(Context c, List<Book> bl, String u) {
         context = c;
-        friends = f;
+        booksLended = bl;
+        username = u;
     }
 
     /*
@@ -27,7 +37,7 @@ public class FriendAdaptor extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return friends.size();
+        return booksLended.size();
     }
 
     /*
@@ -62,48 +72,31 @@ public class FriendAdaptor extends BaseAdapter {
          */
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //Use the LayoutInflater instance to instantiate a new View of the "correct type"
-        row = inflater.inflate(R.layout.custom_list_book, null); //The second argument is the root view (in this case, none)
+
+        row = inflater.inflate(R.layout.book_lended, null); //The second argument is the root view (in this case, none)
         //We need to set up the child views that will go into our custom_list layout
         //Get a reference to the TextView and set its text
-        CheckedTextView checkedTextView = (CheckedTextView) row.findViewById(R.id.checkedTextView);
-        checkedTextView.setText(friends.get(position).friendName);
+        CheckedTextView lbLendedCustomMessage = (CheckedTextView) row.findViewById(R.id.lbLendedCustomMessage);
+        lbLendedCustomMessage.setText(booksLended.get(position).title + " borrowed to " + booksLended.get(position).borrowedTo);
 
         //Respond to clicks on our listItems
-        row.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFriendClick(friends.get(position));
-            }
-
-            public void onFriendClick(Friend friend) {
-                if(friend.status.equals("accepted")) {
-                    Intent friendCollectionIntent = new Intent(context, FriendCollection.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    friendCollectionIntent.putExtra("friendName", friend.friendName);
-                    String friendKey = friend.friendEmail.substring(0, friend.friendEmail.indexOf("@"));
-                    friendCollectionIntent.putExtra("friendKey", friendKey);
-                    context.startActivity(friendCollectionIntent);
-                } else {
-                    Toast.makeText(context, "Your friend need to accept you to access his/her library", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
         row.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                onFriendLongClick(friends.get(position));
+                onLendLongClick(booksLended.get(position));
                 return false;
             }
 
-            public void onFriendLongClick (Friend friend) {
-                Intent deleteFriendIntent = new Intent(context,AddFriend.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);;
-                deleteFriendIntent.putExtra("action","delete");
-                String friendKey = friend.friendEmail.substring(0, friend.friendEmail.indexOf("@"));
-                deleteFriendIntent.putExtra("friendKey", friendKey);
-                deleteFriendIntent.putExtra("friendName", friend.friendName);
-                context.startActivity(deleteFriendIntent);
+            public void onLendLongClick (Book book) {
+                Intent lendBookDeleteIntent = new Intent(context,LendBookDelete.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                lendBookDeleteIntent.putExtra("action","deleteLend");
+                lendBookDeleteIntent.putExtra("bookKey",book.key);
+                lendBookDeleteIntent.putExtra("bookTitle",book.title);
+                lendBookDeleteIntent.putExtra("bookBorrowedTo",book.borrowedTo);
+                context.startActivity(lendBookDeleteIntent);
             }
         });
+
         return row;
     }
 }

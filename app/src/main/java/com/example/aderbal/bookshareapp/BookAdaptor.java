@@ -76,16 +76,28 @@ public class BookAdaptor extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 onBookClick(books.get(position));
-
-                //TODO: Fazer algo para pegar o hash certo pro edit
             }
 
             public void onBookClick (Book book) {
                 Intent editBookIntent = new Intent(context,ManageBooks.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);;
-                editBookIntent.setComponent(new ComponentName("com.example.aderbal.bookshareapp", "com.example.aderbal.bookshareapp.ManageBooks"));
                 editBookIntent.putExtra("action","update");
                 editBookIntent.putExtra("bookKey",book.key);
                 context.startActivity(editBookIntent);
+            }
+        });
+
+        row.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onBookLongClick(books.get(position));
+                return false;
+            }
+
+            public void onBookLongClick (Book book) {
+                Intent deleteBookIntent = new Intent(context,ManageBooks.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);;
+                deleteBookIntent.putExtra("action","delete");
+                deleteBookIntent.putExtra("bookKey",book.key);
+                context.startActivity(deleteBookIntent);
             }
         });
         return row;

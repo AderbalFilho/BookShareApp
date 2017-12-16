@@ -26,7 +26,11 @@
         <activity android:name=".PublicLibrary" />
         <activity android:name=".Loans" />
         <activity android:name=".Reminders" />
-        <activity android:name=".AddFriend"></activity>
+        <activity android:name=".AddFriend" />
+        <activity android:name=".LendBookDelete" />
+        <activity android:name=".NewLoanRequest" />
+        <activity android:name=".NewLoanRequestFriend" />
+        <activity android:name=".FriendFinishLend"></activity>
     </application>
 
 </manifest>

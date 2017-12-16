@@ -59,31 +59,6 @@
             android:text="Loans" />
 
         <Button
-            android:id="@+id/btnReminders"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:text="Reminder" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="70dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnPublicLibrary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:text="Public Library" />
-
-        <Button
             android:id="@+id/btnSignOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,6 +66,7 @@
             android:layout_weight="1"
             android:text="SIGN OUT"
             android:visibility="visible" />
+
     </LinearLayout>
 
 </LinearLayout>

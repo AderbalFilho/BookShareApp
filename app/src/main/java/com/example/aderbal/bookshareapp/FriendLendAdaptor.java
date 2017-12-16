@@ -1,6 +1,5 @@
 package com.example.aderbal.bookshareapp;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,14 +11,18 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class FriendAdaptor extends BaseAdapter {
-    Context context;
-    List<Friend> friends;
+public class FriendLendAdaptor extends BaseAdapter {
+    private Context context;
+    private List<Friend> friendsLend;
+    private String bookKey;
+    private String bookTitle;
 
     //A constructor to set up our instance variables
-    public FriendAdaptor(Context c, List<Friend> f) {
+    public FriendLendAdaptor(Context c, List<Friend> fl, String bk, String bt) {
         context = c;
-        friends = f;
+        friendsLend = fl;
+        bookKey = bk;
+        bookTitle = bt;
     }
 
     /*
@@ -27,7 +30,7 @@ public class FriendAdaptor extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return friends.size();
+        return friendsLend.size();
     }
 
     /*
@@ -66,42 +69,23 @@ public class FriendAdaptor extends BaseAdapter {
         //We need to set up the child views that will go into our custom_list layout
         //Get a reference to the TextView and set its text
         CheckedTextView checkedTextView = (CheckedTextView) row.findViewById(R.id.checkedTextView);
-        checkedTextView.setText(friends.get(position).friendName);
+        checkedTextView.setText(friendsLend.get(position).friendName);
 
         //Respond to clicks on our listItems
         row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFriendClick(friends.get(position));
+                onFriendClick(friendsLend.get(position));
             }
 
             public void onFriendClick(Friend friend) {
-                if(friend.status.equals("accepted")) {
-                    Intent friendCollectionIntent = new Intent(context, FriendCollection.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    friendCollectionIntent.putExtra("friendName", friend.friendName);
-                    String friendKey = friend.friendEmail.substring(0, friend.friendEmail.indexOf("@"));
-                    friendCollectionIntent.putExtra("friendKey", friendKey);
-                    context.startActivity(friendCollectionIntent);
-                } else {
-                    Toast.makeText(context, "Your friend need to accept you to access his/her library", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        row.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                onFriendLongClick(friends.get(position));
-                return false;
-            }
-
-            public void onFriendLongClick (Friend friend) {
-                Intent deleteFriendIntent = new Intent(context,AddFriend.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);;
-                deleteFriendIntent.putExtra("action","delete");
+                Intent friendLendIntent = new Intent(context, FriendFinishLend.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                friendLendIntent.putExtra("friendName", friend.friendName);
                 String friendKey = friend.friendEmail.substring(0, friend.friendEmail.indexOf("@"));
-                deleteFriendIntent.putExtra("friendKey", friendKey);
-                deleteFriendIntent.putExtra("friendName", friend.friendName);
-                context.startActivity(deleteFriendIntent);
+                friendLendIntent.putExtra("friendKey", friendKey);
+                friendLendIntent.putExtra("bookKey", bookKey);
+                friendLendIntent.putExtra("bookTitle", bookTitle);
+                context.startActivity(friendLendIntent);
             }
         });
         return row;

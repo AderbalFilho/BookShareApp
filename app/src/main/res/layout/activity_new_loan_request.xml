@@ -4,36 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.aderbal.bookshareapp.FriendCollection"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/lbFriendName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Friend's name"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+    android:orientation="vertical"
+    tools:context="com.example.aderbal.bookshareapp.NewLoanRequest">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <SearchView
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </LinearLayout>
 
     <ListView
-        android:id="@+id/manageFriendsCollection"
+        android:id="@+id/newLoanBook"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp" />
 
 </LinearLayout>

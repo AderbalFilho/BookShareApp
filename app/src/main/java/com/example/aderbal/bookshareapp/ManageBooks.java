@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,9 +27,10 @@ public class ManageBooks extends AppCompatActivity {
     private Book book;
     private String bookKey;
     private String action;
-    final private String username = "friend2";
+    private String friendKey;
+    private String username;
 
-    public void handleBtnSaveclick (int bookId) {
+    public void handleBtnSaveclick () {
         EditText etTitle = (EditText) findViewById(R.id.txtTitle);
         String title = etTitle.getText().toString();
         if (!title.equals("")) {
@@ -52,20 +54,31 @@ public class ManageBooks extends AppCompatActivity {
             }
             EditText txtCategory = (EditText) findViewById(R.id.txtCategory);
             String category = txtCategory.getText().toString();
-            Book book = new Book(title, author, publisher, year, nPages, category);
             if (action.equals("create")) {
-                //book.bookId = Book.bookIdCounter;
-                /*mDatabase.child(username).child("books").child(String.valueOf(Book.bookIdCounter)).setValue(book);
-                Book.bookIdCounter++;*/
+                Book book = new Book(title, author, publisher, year, nPages, category);
                 DatabaseReference ref = mDatabase.getReference().child(username).child("books");
                 ref.push().setValue(book);
                 Toast.makeText(this, "Book successfully added!", Toast.LENGTH_LONG).show();
+            } else if (action.equals("read")) {
+                if(book.solicitations.contains(username)) {
+                    Toast.makeText(this, "You've already solicited this book!", Toast.LENGTH_LONG).show();
+                } else {
+                    book.solicitations.add(username);
+                    DatabaseReference ref = mDatabase.getReference().child(friendKey).child("books").child(bookKey);
+                    ref.setValue(book);
+                    Toast.makeText(this, "Solicited to your friend!", Toast.LENGTH_LONG).show();
+                }
             } else if (action.equals("update")) {
+                book.title = title;
+                book.author = author;
+                book.publisher = publisher;
+                book.year = year;
+                book.nPages = nPages;
+                book.category = category;
                 DatabaseReference ref = mDatabase.getReference().child(username).child("books").child(bookKey);
                 ref.setValue(book);
                 Toast.makeText(this, "Book successfully updated!", Toast.LENGTH_LONG).show();
             } else if (action.equals("delete")) {
-                //TODO: Adicionar função para chamar isso.
                 DatabaseReference ref = mDatabase.getReference().child(username).child("books").child(bookKey);
                 ref.setValue(null);
                 Toast.makeText(this, "Book deleted!", Toast.LENGTH_LONG).show();
@@ -80,24 +93,23 @@ public class ManageBooks extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_books);
+        username = getString(R.string.username);
 
 
         Button btnSaveNewBook = (Button) findViewById(R.id.btnSaveNewBook);
         final Bundle extras = getIntent().getExtras();
         action = extras.getString("action");
-        if (action.equals("update")) {
+        if (action.equals("update") || action.equals("read") || action.equals("delete")) {
             bookKey = extras.getString("bookKey");
+            if(action.equals("read"))
+                friendKey = extras.getString("friendKey");
             new LoadEditBook().execute("");
         }
 
         btnSaveNewBook.setOnClickListener(
                 new View.OnClickListener(){
                     public void onClick(View v) {
-                        int bookId = -1;
-                        if (action.equals("update")) {
-                            bookId = extras.getInt("bookId");
-                        }
-                        handleBtnSaveclick(bookId);
+                        handleBtnSaveclick();
                     }
                 }
         );
@@ -125,8 +137,24 @@ public class ManageBooks extends AppCompatActivity {
             EditText txtCategory = (EditText) findViewById(R.id.txtCategory);
             txtCategory.setText(book.category);
             TextView textView = (TextView) findViewById(R.id.lbAddUpdateBook);
-            textView.setText("Update book");
-            btnSaveNewBook.setText("Update");
+            if(action.equals("read") || action.equals("delete")) {
+                txtTitle.setKeyListener(null);
+                txtAuthor.setKeyListener(null);
+                txtPublisher.setKeyListener(null);
+                txtYear.setKeyListener(null);
+                txtNoPages.setKeyListener(null);
+                txtCategory.setKeyListener(null);
+                if(action.equals("read")) {
+                    textView.setText("Friend book");
+                    btnSaveNewBook.setText("Ask to borrow");
+                } else {
+                    textView.setText("Delete book?");
+                    btnSaveNewBook.setText("Confirm delete");
+                }
+            } else if(action.equals("update")) {
+                textView.setText("Update book");
+                btnSaveNewBook.setText("Update");
+            }
         } else {
             Toast.makeText(getBaseContext(), "Error during load!", Toast.LENGTH_LONG).show();
         }
@@ -136,6 +164,9 @@ public class ManageBooks extends AppCompatActivity {
         @Override
         protected Integer doInBackground(String... strings) {
             DatabaseReference ref = mDatabase.getReference().child(username).child("books").child(bookKey);
+            if (action.equals("read")) {
+                ref = mDatabase.getReference().child(friendKey).child("books").child(bookKey);
+            }
             //Pegar um único valor
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
